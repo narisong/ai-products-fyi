@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <style>
+    /* Styles for the DataTables */
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    #myTable_wrapper {
+      width: 50%;
+      margin: 0 auto;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+      float: right;
+      text-align: right;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+      margin-left: 0.5em;
+    }
+
+    th,
+    td {
+      text-align: center;
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    /* Styles for the sticky footer */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .footer {
+      margin-top: auto;
+      padding: 1em;
+      background-color: #f5f5f5;
+      text-align: center;
+    }
+
+    .footer a {
+      margin: 0 1em;
+      text-decoration: none;
+      color: #007BFF;
+    }
+  </style>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+  <table id="myTable" class="display">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Website</th>
+        <th>Company</th>
+        <th>Categories</th>
+        <th>Created</th>
+        <th data-visible="false">Crunchbase</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>deeplake</td>
+        <td>https://www.activeloop.ai/</td>
+        <td>activeloop</td>
+        <td>Vector Database</td>
+        <td>2018</td>
+        <td>https://www.crunchbase.com/organization/snark-ai</td>
+      </tr>
+      <tr>
+        <td>dstack.ai</td>
+        <td>https://dstack.ai/</td>
+        <td>dstack.ai</td>
+        <td>LLMOps, Cloud Infra</td>
+        <td>2023</td>
+        <td>https://www.crunchbase.com/organization/dstack-ai</td>
+      </tr>
+      <tr>
+        <td>Helicone</td>
+        <td>https://www.helicone.ai/</td>
+        <td>Helicone</td>
+        <td>LLMOps, API Analytics</td>
+        <td>2023</td>
+        <td>https://www.crunchbase.com/organization/helicone</td>
+      </tr>
+      <tr>
+        <td>Pinecone</td>
+        <td>https://www.pinecone.io/</td>
+        <td>Pinecone</td>
+        <td>Vector Database</td>
+        <td>2019</td>
+        <td>https://www.crunchbase.com/organization/pinecone</td>
+      </tr>
+      <tr>
+        <td>PlayHT</td>
+        <td>https://play.ht/</td>
+        <td>Play.ht</td>
+        <td>Text to Speech, Voice Cloning</td>
+        <td>2016</td>
+        <td>https://www.crunchbase.com/organization/play-ht</td>
+      </tr>
+      <tr>
+        <td>Puddl</td>
+        <td>https://puddl.io/</td>
+        <td>Puddl</td>
+        <td>LLMOps, API Analytics</td>
+        <td>2023</td>
+        <td>NA</td>
+      </tr>
+      <tr>
+        <td>Stack AI</td>
+        <td>https://www.stack-ai.com/</td>
+        <td>Stack</td>
+        <td>AI App Builder</td>
+        <td>2022</td>
+        <td>https://www.crunchbase.com/organization/stack-87fd</td>
+      </tr>
+      <tr>
+        <td>thankful.ai</td>
+        <td>https://www.thankful.ai/</td>
+        <td>Thankful.ai, Abot Labs</td>
+        <td>Customer Service</td>
+        <td>2016</td>
+        <td>https://www.crunchbase.com/organization/abot-labs-inc</td>
+      </tr>
+      <tr>
+        <td>Yuma.ai</td>
+        <td>https://www.yuma.ai</td>
+        <td>Yuma</td>
+        <td>Customer Service</td>
+        <td>2022</td>
+        <td>https://www.crunchbase.com/organization/yuma-c2b6</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <a href="https://twitter.com/yourusername" target="_blank">Twitter</a>
+    <a href="https://facebook.com/yourusername" target="_blank">Facebook</a>
+    <a href="https://instagram.com/yourusername" target="_blank">Instagram</a>
+    <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+  </div>
+
+  <script>$(document).ready(function () {
+      // Setup DataTable with custom rendering for the 4th and 1st columns
+      var table = $('#myTable').DataTable({
+        columnDefs: [
+          // {
+          //   targets: 4,
+          //   render: function (data) {
+          //     var date = new Date(data + '-01-01');
+          //     return date.getFullYear();
+          //   }
+          // },
+          {
+            targets: 1,
+            render: function (data) {
+              return `<a href="${data}" target="_blank">${data}</a>`;
+            }
+          }
+        ]
+      });
+
+      // Setup custom search function
+      $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+          var searchTerm = $('.dataTables_filter input').val().toLowerCase();
+          var rowData = data.map(value => value.toLowerCase()); // convert row data to lower case
+
+          // return true if row data contains exact search term, false otherwise
+          return rowData.some(value => value.includes(searchTerm));
+        }
+      );
+
+      // Redraw the table when the search input changes
+      $('.dataTables_filter input').on('keyup', function () {
+        table.draw();
+      });
+    });
+  </script>
+</body>
+
+</html>
