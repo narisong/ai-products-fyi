@@ -8,11 +8,12 @@
   <style>
     /* Styles for the DataTables */
     body {
+      padding: 0 10%;
       font-family: Arial, sans-serif;
     }
 
     #myTable_wrapper {
-      width: 50%;
+      width: 100%;
       margin: 0 auto;
     }
 
@@ -71,7 +72,7 @@
 </head>
 
 <body>
-  <table id="myTable" class="display">
+  <table id="productTable" class="display">
     <thead>
       <tr>
         <th>Product</th>
@@ -79,82 +80,9 @@
         <th>Company</th>
         <th>Categories</th>
         <th>Created</th>
-        <th data-visible="false">Crunchbase</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>deeplake</td>
-        <td>https://www.activeloop.ai/</td>
-        <td>activeloop</td>
-        <td>Vector Database</td>
-        <td>2018</td>
-        <td>https://www.crunchbase.com/organization/snark-ai</td>
-      </tr>
-      <tr>
-        <td>dstack.ai</td>
-        <td>https://dstack.ai/</td>
-        <td>dstack.ai</td>
-        <td>LLMOps, Cloud Infra</td>
-        <td>2023</td>
-        <td>https://www.crunchbase.com/organization/dstack-ai</td>
-      </tr>
-      <tr>
-        <td>Helicone</td>
-        <td>https://www.helicone.ai/</td>
-        <td>Helicone</td>
-        <td>LLMOps, API Analytics</td>
-        <td>2023</td>
-        <td>https://www.crunchbase.com/organization/helicone</td>
-      </tr>
-      <tr>
-        <td>Pinecone</td>
-        <td>https://www.pinecone.io/</td>
-        <td>Pinecone</td>
-        <td>Vector Database</td>
-        <td>2019</td>
-        <td>https://www.crunchbase.com/organization/pinecone</td>
-      </tr>
-      <tr>
-        <td>PlayHT</td>
-        <td>https://play.ht/</td>
-        <td>Play.ht</td>
-        <td>Text to Speech, Voice Cloning</td>
-        <td>2016</td>
-        <td>https://www.crunchbase.com/organization/play-ht</td>
-      </tr>
-      <tr>
-        <td>Puddl</td>
-        <td>https://puddl.io/</td>
-        <td>Puddl</td>
-        <td>LLMOps, API Analytics</td>
-        <td>2023</td>
-        <td>NA</td>
-      </tr>
-      <tr>
-        <td>Stack AI</td>
-        <td>https://www.stack-ai.com/</td>
-        <td>Stack</td>
-        <td>AI App Builder</td>
-        <td>2022</td>
-        <td>https://www.crunchbase.com/organization/stack-87fd</td>
-      </tr>
-      <tr>
-        <td>thankful.ai</td>
-        <td>https://www.thankful.ai/</td>
-        <td>Thankful.ai, Abot Labs</td>
-        <td>Customer Service</td>
-        <td>2016</td>
-        <td>https://www.crunchbase.com/organization/abot-labs-inc</td>
-      </tr>
-      <tr>
-        <td>Yuma.ai</td>
-        <td>https://www.yuma.ai</td>
-        <td>Yuma</td>
-        <td>Customer Service</td>
-        <td>2022</td>
-        <td>https://www.crunchbase.com/organization/yuma-c2b6</td>
-      </tr>
     </tbody>
   </table>
 
@@ -165,9 +93,30 @@
     <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
   </div>
 
-  <script>$(document).ready(function () {
+  <!-- Firebase App is always required -->
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+
+  <!-- If you enabled Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDDlkdT8uTRiInLEvIpbwBrcQr2W8Qxrjg",
+      authDomain: "ai-products-fyi.firebaseapp.com",
+      projectId: "ai-products-fyi",
+      storageBucket: "ai-products-fyi.appspot.com",
+      messagingSenderId: "200912904917",
+      appId: "1:200912904917:web:20d0b0228d1701f6a6785c",
+      measurementId: "G-1NJ9427M8Q"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+
+    $(document).ready(function () {
       // Setup DataTable with custom rendering for the 4th and 1st columns
-      var table = $('#myTable').DataTable({
+      var table = $('#productTable').DataTable({
         columnDefs: [
           // {
           //   targets: 4,
@@ -183,6 +132,29 @@
             }
           }
         ]
+      });
+
+      // Get a reference to the "products" collection
+      var productsRef = db.collection("products");
+
+      // Get all documents in the collection
+      productsRef.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // Get the data from Firestore
+          var docData = doc.data();
+
+          // Add the data to the DataTable
+          table.row.add([
+            docData.Product,
+            docData.Website,
+            docData.Company,
+            docData.Categories,
+            docData.Created,
+          ]);
+        });
+
+        // Redraw the table now that the data has been added
+        table.draw();
       });
 
       // Setup custom search function
