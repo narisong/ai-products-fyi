@@ -117,6 +117,7 @@
     $(document).ready(function () {
       // Setup DataTable with custom rendering for the 4th and 1st columns
       var table = $('#productTable').DataTable({
+        pageLength: 100,
         columnDefs: [
           // {
           //   targets: 4,
