@@ -85,11 +85,11 @@
   <table id="productTable" class="display">
     <thead>
       <tr>
-        <th>Product</th>
-        <th>Website</th>
-        <th>Company</th>
-        <th>Categories</th>
-        <th>Created</th>
+        <th>name</th>
+        <th>website</th>
+        <th>company</th>
+        <th>categories</th>
+        <th>created</th>
       </tr>
     </thead>
     <tbody>
@@ -155,11 +155,11 @@
 
           // Add the data to the DataTable
           table.row.add([
-            docData.Product,
-            docData.Website,
-            docData.Company,
-            docData.Categories,
-            docData.Created,
+            docData.name,
+            docData.website,
+            docData.company,
+            docData.categories.join(", "),
+            docData.created,
           ]);
         });
 
