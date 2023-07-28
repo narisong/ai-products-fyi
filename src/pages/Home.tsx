@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchProducts } from '../firebase';
-import { Product } from '../types';
+import { ProductType } from '../types';
 import { Button, Card, Col, List, Row } from "antd";
 import { Typography } from 'antd';
-import ProductCard from "../components/ProductCard";
 import ProductList from "../components/ProductList";
 
 const { Title } = Typography;
 
 const Home: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {

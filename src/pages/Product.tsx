@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchProduct } from '../firebase';
-import { Product as ProductType } from '../types';
+import { ProductType } from '../types';
+import ProductOverview from '../components/ProductOverview';
+import ProductDetails from '../components/ProductDetails';
 
 type RouteParams = {
   id: string;
@@ -21,9 +23,8 @@ const Product: React.FC = () => {
 
   return (
     <div>
-      <h1>{product.name}</h1>
-      <p>{product.created}</p>
-      {/* Rest of your product details */}
+      <ProductOverview product={product} />
+      <ProductDetails product={product} />
     </div>
   );
 }
