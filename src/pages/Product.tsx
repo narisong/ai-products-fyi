@@ -22,7 +22,7 @@ const Product: React.FC = () => {
   return (
     <div>
       <h1>{product.name}</h1>
-      <p>{product.company}</p>
+      <p>{product.created}</p>
       {/* Rest of your product details */}
     </div>
   );

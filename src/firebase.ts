@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { collection, doc, getDoc, getDocs, getFirestore } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query } from 'firebase/firestore';
 import { Product } from './types';
 
 const firebaseConfig = { /* your config */
@@ -15,13 +15,16 @@ const firebaseConfig = { /* your config */
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+const PRODUCTS_COLLECTION = "products";
+const PRODUCTS_COLLECTION_NAME_FIELD = "name";
+
 export const fetchProducts = async (): Promise<Product[]> => {
-  const snapshot = await getDocs(collection(db, "products"))
+  const snapshot = await getDocs(query(collection(db, PRODUCTS_COLLECTION), orderBy(PRODUCTS_COLLECTION_NAME_FIELD)));
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
 }
 
 export const fetchProduct = async (id: string): Promise<Product> => {
-  const snapshot = await getDoc(doc(db, id));
+  const snapshot = await getDoc(doc(collection(db, PRODUCTS_COLLECTION), id));
   return { id: snapshot.id, ...snapshot.data() } as Product;
 }
 
