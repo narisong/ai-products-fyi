@@ -8,8 +8,11 @@ interface ProductListItemProps {
 }
 
 const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
+  const { id } = product;
   return (
-    <ProductCard product={product}></ProductCard>
+    <Link to={`/products/${id}`}>
+      <ProductCard product={product}></ProductCard>
+    </Link>
   );
 }
 

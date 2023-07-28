@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchProducts } from '../firebase';
 import { Product } from '../types';
-import { Button, Card, List } from "antd";
+import { Button, Card, Col, List, Row } from "antd";
 import { Typography } from 'antd';
 import ProductCard from "../components/ProductCard";
 import ProductList from "../components/ProductList";
@@ -26,10 +26,12 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div>
-      <Title level={2}>AI Products</Title>
-      <ProductList products={products}></ProductList>
-    </div>
+    <Row>
+      <Col span={16}>
+        <Title level={2} style={{ paddingLeft: 25 }}>AI Products</Title>
+        <ProductList products={products}></ProductList>
+      </Col>
+    </Row>
   );
 }
 
