@@ -9,13 +9,13 @@ interface ProductCardProps {
 }
 
 const ProductListItemCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { name, company, tagline, categories } = product;
+  const { name, categories, company, image, tagline } = product;
 
   return (
     <Card className='product-card' bordered={false} bodyStyle={{ padding: 4 }}>
       <Row gutter={16} style={{ alignItems: 'center' }}>
         <Col>
-          <img src={"https://avatars.githubusercontent.com/u/54333248?s=200&v=4"} alt={name} style={{ verticalAlign: 'center', width: 80, height: 80, objectFit: 'contain' }} />
+          <img src={image} alt={name} style={{ verticalAlign: 'center', width: 80, height: 80, objectFit: 'contain' }} />
         </Col>
         <Col span={20}>
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>

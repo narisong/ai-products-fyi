@@ -12,10 +12,18 @@ type RouteParams = {
 const Product: React.FC = () => {
   const { id } = useParams<RouteParams>();
   const [product, setProduct] = useState<ProductType | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetchProduct(id!).then(productFromDB => setProduct(productFromDB));
+    fetchProduct(id!).then(productFromDB => {
+      setProduct(productFromDB);
+      setLoading(false);
+    });
   }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!product) {
     return null;

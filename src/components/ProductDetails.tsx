@@ -12,7 +12,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
   const { company, created, categories, website } = product;
 
   return (
-    <Card>
+    <Card bordered={false}>
       <Paragraph>
         <Text strong>Company: </Text> {company}
       </Paragraph>
