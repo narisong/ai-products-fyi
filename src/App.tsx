@@ -10,10 +10,12 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products/:id" element={<Product />} />
-      </Routes>
+      <div style={{ marginLeft: "5%", marginRight: "5%" }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products/:id" element={<Product />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
