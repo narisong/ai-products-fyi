@@ -27,7 +27,7 @@ const Home: React.FC = () => {
   return (
     <Row>
       <Col span={16}>
-        <Title level={2} style={{ paddingLeft: 25 }}>AI Products</Title>
+        <Title level={2}>AI Products</Title>
         <ProductList products={products}></ProductList>
       </Col>
     </Row>
