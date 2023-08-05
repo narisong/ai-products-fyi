@@ -1,189 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="AI Product Hub and News Feed" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
 
-  <style>
-    /* Styles for the DataTables */
-    body {
-      padding: 0 10%;
-      font-family: Arial, sans-serif;
-    }
-
-    #myTable_wrapper {
-      width: 100%;
-      margin: 0 auto;
-    }
-
-    .dataTables_wrapper .dataTables_filter {
-      float: right;
-      text-align: right;
-    }
-
-    .dataTables_wrapper .dataTables_filter input {
-      margin-left: 0.5em;
-    }
-
-    th,
-    td {
-      text-align: center;
-      padding: 15px;
-      border-bottom: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #007BFF;
-      color: white;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-
-    tr:hover {
-      background-color: #ddd;
-    }
-
-    /* Styles for the sticky footer */
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    .footer {
-      margin-top: auto;
-      padding: 1em;
-      background-color: #f5f5f5;
-      text-align: center;
-    }
-
-    .footer a {
-      margin: 0 1em;
-      text-decoration: none;
-      color: #007BFF;
-    }
-  </style>
-
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1NJ9427M8Q"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-1NJ9427M8Q');
-  </script>
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+  <title>AI Product Hub and News Feed</title>
 </head>
 
 <body>
-  <table id="productTable" class="display">
-    <thead>
-      <tr>
-        <th>name</th>
-        <th>website</th>
-        <th>company</th>
-        <th>categories</th>
-        <th>created</th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
 
-  <div class="footer">
-    <a href="https://twitter.com/risongna" target="_blank">Twitter</a>
-    <a href="https://www.linkedin.com/in/risong-na-95432540/" target="_blank">LinkedIn</a>
-    <a href="https://github.com/narisong/ai-products-fyi" target="_blank">GitHub</a>
-  </div>
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
 
-  <!-- Firebase App is always required -->
-  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
-
-  <!-- If you enabled Firestore -->
-  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
-
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDDlkdT8uTRiInLEvIpbwBrcQr2W8Qxrjg",
-      authDomain: "ai-products-fyi.firebaseapp.com",
-      projectId: "ai-products-fyi",
-      storageBucket: "ai-products-fyi.appspot.com",
-      messagingSenderId: "200912904917",
-      appId: "1:200912904917:web:20d0b0228d1701f6a6785c",
-      measurementId: "G-1NJ9427M8Q"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    var db = firebase.firestore();
-
-    $(document).ready(function () {
-      // Setup DataTable with custom rendering for the 4th and 1st columns
-      var table = $('#productTable').DataTable({
-        pageLength: 100,
-        columnDefs: [
-          // {
-          //   targets: 4,
-          //   render: function (data) {
-          //     var date = new Date(data + '-01-01');
-          //     return date.getFullYear();
-          //   }
-          // },
-          {
-            targets: 1,
-            render: function (data) {
-              return `<a href="${data}" target="_blank">${data}</a>`;
-            }
-          }
-        ]
-      });
-
-      // Get a reference to the "products" collection
-      var productsRef = db.collection("products");
-
-      // Get all documents in the collection
-      productsRef.get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          // Get the data from Firestore
-          var docData = doc.data();
-
-          // Add the data to the DataTable
-          table.row.add([
-            docData.name,
-            docData.website,
-            docData.company,
-            docData.categories.join(", "),
-            docData.created,
-          ]);
-        });
-
-        // Redraw the table now that the data has been added
-        table.draw();
-      });
-
-      // Setup custom search function
-      $.fn.dataTable.ext.search.push(
-        function (settings, data, dataIndex) {
-          var searchTerm = $('.dataTables_filter input').val().toLowerCase();
-          var rowData = data.map(value => value.toLowerCase()); // convert row data to lower case
-
-          // return true if row data contains exact search term, false otherwise
-          return rowData.some(value => value.includes(searchTerm));
-        }
-      );
-
-      // Redraw the table when the search input changes
-      $('.dataTables_filter input').on('keyup', function () {
-        table.draw();
-      });
-    });
-  </script>
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
 </body>
 
 </html>
