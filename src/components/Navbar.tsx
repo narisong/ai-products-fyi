@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Layout, Menu, Row, Space } from 'antd';
+import { Col, Layout, Menu, Row, Space, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import logo from '../images/logo.png';
 import { GithubOutlined, LinkedinOutlined, TwitterOutlined } from '@ant-design/icons';
@@ -16,6 +16,7 @@ const Navbar: React.FC = () => {
       </Col>
       <Col>
         <Space style={{ margin: '20px 20px 0 0' }}>
+          <Typography.Text style={{ fontSize: '20px', lineHeight: '20px' }}>Contact Us:</Typography.Text>
           <a href="https://twitter.com/risongna" target="_blank" rel="noreferrer">
             <TwitterOutlined style={{ fontSize: '40px', marginRight: '10px' }} />
           </a>
